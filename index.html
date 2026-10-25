@@ -1,3 +1,165 @@
 <!DOCTYPE html>
-<html lang="id"></body>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZamModNilai - AI Belajar</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#0b1020;
+ color:white;
+}
+header{
+ text-align:center;
+ padding:35px 15px;
+ background:linear-gradient(135deg,#293b90,#111a36);
+}
+h1{color:#a5bbff;margin:0;font-size:32px}
+header p{color:#d2dcff}
+main{max-width:650px;margin:auto;padding:18px}
+.card{
+ background:#192441;
+ padding:22px;
+ border-radius:18px;
+ margin-bottom:18px;
+}
+h2{font-size:20px}
+label{display:block;margin:15px 0 7px}
+input,select,textarea{
+ width:100%;
+ padding:13px;
+ border:1px solid #465779;
+ border-radius:10px;
+ background:#0d1630;
+ color:white;
+ font-size:15px;
+}
+textarea{min-height:150px;resize:vertical}
+button{
+ width:100%;
+ background:#597eff;
+ color:white;
+ border:0;
+ border-radius:12px;
+ padding:15px;
+ margin-top:15px;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+}
+button:hover{background:#4166e9}
+.info{font-size:13px;color:#b6c3df;line-height:1.6}
+footer{text-align:center;padding:20px;color:#9daac9}
+</style>
+</head>
+<body>
+
+<header>
+<h1>✦ ZamModNilai</h1>
+<p>AI Pembahas Soal Semua Mata Pelajaran</p>
+</header>
+
+<main>
+<section class="card">
+<h2>Pengaturan Belajar</h2>
+
+<label>Mata Pelajaran</label>
+<select id="mapel">
+<option>Semua Mata Pelajaran</option>
+<option>Matematika</option>
+<option>IPA</option>
+<option>IPS</option>
+<option>Bahasa Indonesia</option>
+<option>Bahasa Inggris</option>
+<option>PPKn</option>
+<option>Agama</option>
+<option>Informatika</option>
+<option>Lainnya</option>
+</select>
+
+<label>Target Nilai (1–100)</label>
+<input id="target" type="number"
+min="1" max="100" value="100">
+</section>
+
+<section class="card">
+<h2>Masukkan Soal</h2>
+
+<label>Link Google Forms</label>
+<input id="link" type="url"
+placeholder="https://forms.gle/...">
+
+<button onclick="bukaForm()">
+Buka Google Forms
+</button>
+
+<p class="info">
+Google Forms dibuka di tab baru.
+Website ini tidak otomatis mengambil
+atau mengisi jawaban formulir.
+</p>
+
+<label>Soal dan Pilihan Jawaban</label>
+<textarea id="soal"
+placeholder="Masukkan soal dan pilihan A, B, C, D..."></textarea>
+
+<button onclick="bahas()">
+✦ Bahas Soal dengan AI
+</button>
+</section>
+
+<section class="card">
+<h2>Tentang ZamModNilai</h2>
+<p class="info">
+ZamModNilai membantu memahami soal,
+mempelajari jawaban, dan berlatih
+untuk semua mata pelajaran.
+Pembahasan menggunakan ChatGPT.
+</p>
+</section>
+</main>
+
+<footer>© 2026 ZamModNilai</footer>
+
+<script>
+function bukaForm(){
+ const link=document.getElementById("link").value.trim();
+ if(!/^https:\/\/(forms\.gle|docs\.google\.com)\//i.test(link)){
+  alert("Masukkan link Google Forms yang benar.");
+  return;
+ }
+ window.open(link,"_blank","noopener,noreferrer");
+}
+
+function bahas(){
+ const soal=document.getElementById("soal").value.trim();
+ const mapel=document.getElementById("mapel").value;
+ const target=Number(document.getElementById("target").value);
+
+ if(!soal){
+  alert("Masukkan soal terlebih dahulu.");
+  return;
+ }
+ if(!Number.isInteger(target)||target<1||target>100){
+  alert("Target nilai harus antara 1 sampai 100.");
+  return;
+ }
+
+ const pesan=
+ "Bantu saya belajar mata pelajaran "+mapel+
+ ". Target nilai latihan "+target+
+ "/100. Berikan jawaban yang disarankan, "+
+ "langkah penyelesaian dan pembahasan yang jelas "+
+ "untuk soal berikut:\n\n"+soal;
+
+ const url="https://chatgpt.com/?q="+
+ encodeURIComponent(pesan);
+
+ window.open(url,"_blank","noopener,noreferrer");
+}
+</script>
+</body>
 </html>
