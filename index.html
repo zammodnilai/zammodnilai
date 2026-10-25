@@ -3,162 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ZamModNilai - AI Belajar</title>
+<title>ZamModNilai AI</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#0b1020;
- color:white;
-}
-header{
- text-align:center;
- padding:35px 15px;
- background:linear-gradient(135deg,#293b90,#111a36);
-}
-h1{color:#a5bbff;margin:0;font-size:32px}
-header p{color:#d2dcff}
-main{max-width:650px;margin:auto;padding:18px}
-.card{
- background:#192441;
- padding:22px;
- border-radius:18px;
- margin-bottom:18px;
-}
-h2{font-size:20px}
-label{display:block;margin:15px 0 7px}
-input,select,textarea{
- width:100%;
- padding:13px;
- border:1px solid #465779;
- border-radius:10px;
- background:#0d1630;
- color:white;
- font-size:15px;
-}
-textarea{min-height:150px;resize:vertical}
-button{
- width:100%;
- background:#597eff;
- color:white;
- border:0;
- border-radius:12px;
- padding:15px;
- margin-top:15px;
- font-size:16px;
- font-weight:bold;
- cursor:pointer;
-}
-button:hover{background:#4166e9}
-.info{font-size:13px;color:#b6c3df;line-height:1.6}
-footer{text-align:center;padding:20px;color:#9daac9}
+body{margin:0;background:#1053bf;font-family:Arial,sans-serif;color:#183052}
+header{background:#ffda36;padding:18px;text-align:center;border-bottom:4px solid #dca600}
+header h2{margin:0}
+header small{color:#287b40}
+main{max-width:520px;margin:auto;padding:15px}
+.card{background:white;border-radius:18px;padding:16px;margin-bottom:15px;box-shadow:0 5px 0 #073b87}
+input,textarea{width:100%;padding:12px;margin:7px 0 12px;border:2px solid #cbd5e1;border-radius:10px;font-size:15px}
+label{font-weight:bold;font-size:14px}
+button{width:100%;padding:14px;background:#ffda36;border:2px solid #173b7a;border-radius:12px;font-weight:bold;font-size:15px;cursor:pointer}
+.blue{background:#1764d9;color:white;margin-top:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.question{background:#f1f5fc;padding:12px;border-radius:12px;margin-top:12px}
+.option{padding:10px;background:white;border:1px solid #cbd5e1;border-radius:9px;margin:7px 0}
+.correct{background:#b9f7c7;border:2px solid #13a447;color:#12622e;font-weight:bold}
+#results{display:none}
+.note{font-size:12px;color:#64748b;line-height:1.5}
+footer{padding:12px;background:#1053bf}
 </style>
 </head>
 <body>
 
 <header>
-<h1>✦ ZamModNilai</h1>
-<p>AI Pembahas Soal Semua Mata Pelajaran</p>
+<h2>🤖 ZamModNilai AI</h2>
+<small>● Asisten AI • Demo</small>
 </header>
 
 <main>
-<section class="card">
-<h2>Pengaturan Belajar</h2>
-
-<label>Mata Pelajaran</label>
-<select id="mapel">
-<option>Semua Mata Pelajaran</option>
-<option>Matematika</option>
-<option>IPA</option>
-<option>IPS</option>
-<option>Bahasa Indonesia</option>
-<option>Bahasa Inggris</option>
-<option>PPKn</option>
-<option>Agama</option>
-<option>Informatika</option>
-<option>Lainnya</option>
-</select>
-
-<label>Target Nilai (1–100)</label>
-<input id="target" type="number"
-min="1" max="100" value="100">
-</section>
-
-<section class="card">
-<h2>Masukkan Soal</h2>
+<div class="card">
+<h3>📝 Data Ujian</h3>
+<div class="grid">
+<div>
+<label>Nama</label>
+<input placeholder="Nama kamu">
+</div>
+<div>
+<label>Kelas</label>
+<input placeholder="Kelas">
+</div>
+<div>
+<label>Token</label>
+<input placeholder="Token">
+</div>
+<div>
+<label>Target Nilai</label>
+<input type="number" min="1" max="100" value="100">
+</div>
+</div>
 
 <label>Link Google Forms</label>
-<input id="link" type="url"
-placeholder="https://forms.gle/...">
+<input id="link" placeholder="https://forms.gle/xxxxx">
+<button class="blue" onclick="openForm()">🔗 Buka Google Form</button>
+</div>
 
-<button onclick="bukaForm()">
-Buka Google Forms
-</button>
+<div class="card">
+<h3>💬 Asisten AI</h3>
+<p>Tekan tombol untuk melihat 10 jawaban latihan.</p>
+<button onclick="showAnswers()">✨ Tampilkan 10 Jawaban</button>
+<p class="note">Versi demo. Belum membaca Google Forms otomatis.</p>
+</div>
 
-<p class="info">
-Google Forms dibuka di tab baru.
-Website ini tidak otomatis mengambil
-atau mengisi jawaban formulir.
-</p>
+<div id="results"></div>
 
-<label>Soal dan Pilihan Jawaban</label>
-<textarea id="soal"
-placeholder="Masukkan soal dan pilihan A, B, C, D..."></textarea>
-
-<button onclick="bahas()">
-✦ Bahas Soal dengan AI
-</button>
-</section>
-
-<section class="card">
-<h2>Tentang ZamModNilai</h2>
-<p class="info">
-ZamModNilai membantu memahami soal,
-mempelajari jawaban, dan berlatih
-untuk semua mata pelajaran.
-Pembahasan menggunakan ChatGPT.
-</p>
-</section>
+<div class="card">
+<h3>💬 Chat ZamModNilai</h3>
+<textarea id="message" rows="3" placeholder="Tulis pertanyaan di sini..."></textarea>
+<button class="blue" onclick="sendMessage()">➤ Kirim</button>
+<p id="reply" class="note"></p>
+</div>
 </main>
 
-<footer>© 2026 ZamModNilai</footer>
-
 <script>
-function bukaForm(){
- const link=document.getElementById("link").value.trim();
- if(!/^https:\/\/(forms\.gle|docs\.google\.com)\//i.test(link)){
-  alert("Masukkan link Google Forms yang benar.");
-  return;
- }
- window.open(link,"_blank","noopener,noreferrer");
+const questions = [
+["12 × 8 = ...",["86","96","98","108"],1],
+["√144 = ...",["10","11","12","14"],2],
+["25 + 37 = ...",["52","62","72","82"],1],
+["9² = ...",["18","72","81","99"],2],
+["15% dari 200 = ...",["15","20","30","40"],2],
+["7 × 6 = ...",["36","42","48","56"],1],
+["100 − 45 = ...",["45","50","55","65"],2],
+["3³ = ...",["9","18","27","36"],2],
+["½ dari 80 = ...",["20","30","40","60"],2],
+["120 ÷ 4 = ...",["20","25","30","40"],2]
+];
+
+function openForm(){
+const link=document.getElementById("link").value.trim();
+try{
+const url=new URL(link);
+const validHost=url.hostname==="forms.gle" ||
+url.hostname==="docs.google.com";
+if(url.protocol!=="https:" || !validHost){
+throw new Error("Link tidak valid");
+}
+window.open(url.href,"_blank","noopener,noreferrer");
+}catch(e){
+alert("Masukkan link Google Forms yang benar.");
+}
 }
 
-function bahas(){
- const soal=document.getElementById("soal").value.trim();
- const mapel=document.getElementById("mapel").value;
- const target=Number(document.getElementById("target").value);
+function showAnswers(){
+const results=document.getElementById("results");
+results.innerHTML="";
+questions.forEach((q,i)=>{
+const card=document.createElement("div");
+card.className="card";
+const heading=document.createElement("h3");
+heading.textContent="Soal "+(i+1)+": "+q[0];
+card.appendChild(heading);
+q[1].forEach((opt,j)=>{
+const div=document.createElement("div");
+div.className="option"+(j===q[2]?" correct":"");
+div.textContent=String.fromCharCode(65+j)+". "+opt+
+(j===q[2]?" ✓":"");
+card.appendChild(div);
+});
+results.appendChild(card);
+});
+results.style.display="block";
+results.scrollIntoView({behavior:"smooth"});
+}
 
- if(!soal){
-  alert("Masukkan soal terlebih dahulu.");
-  return;
- }
- if(!Number.isInteger(target)||target<1||target>100){
-  alert("Target nilai harus antara 1 sampai 100.");
-  return;
- }
-
- const pesan=
- "Bantu saya belajar mata pelajaran "+mapel+
- ". Target nilai latihan "+target+
- "/100. Berikan jawaban yang disarankan, "+
- "langkah penyelesaian dan pembahasan yang jelas "+
- "untuk soal berikut:\n\n"+soal;
-
- const url="https://chatgpt.com/?q="+
- encodeURIComponent(pesan);
-
- window.open(url,"_blank","noopener,noreferrer");
+function sendMessage(){
+const msg=document.getElementById("message").value.trim();
+document.getElementById("reply").textContent=
+msg ? "Pesan diterima. Fitur AI asli belum terhubung." :
+"Tulis pertanyaan terlebih dahulu.";
 }
 </script>
 </body>
